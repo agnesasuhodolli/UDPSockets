@@ -1,4 +1,5 @@
-# UDPSocketsThis project is developed as part of the Computer Networks course and focuses on implementing a client-server architecture using C++.
+# UDPSockets
+This project is developed as part of the Computer Networks course and focuses on implementing a client-server architecture using C++.
 
 The system consists of a server and multiple clients that communicate over network sockets using IP addresses and ports. The server is responsible for listening to incoming client connections, processing requests, and managing access to files and resources. Each client connects to the server, sends requests, receives responses, and interacts with the server based on assigned permissions.
 
