@@ -1,5 +1,60 @@
 //Ahmet
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <fstream>
+#include <algorithm>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <WS2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
+#define popen _popen
+#define pclose _pclose
+#else
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
+#include <string>
+
+#define BUFFER_SIZE 2048
+#define SERVER_PORT 4444
+
+struct Client {
+std::string id;
+bool isAdmin;
+};
+
+// Funksion për kontroll të komandave
+bool isAllowedCommand(const std::string& cmd) {
+return (cmd == "dir" ||
+cmd == "ls" ||
+cmd == "date" ||
+cmd == "whoami");
+}
+
+int main() {
+
+#ifdef _WIN32
+WSADATA wsa;
+WSAStartup(MAKEWORD(2,2), &wsa);
+#endif
+
+int serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+sockaddr_in serverAddr{}, clientAddr{};
+socklen_t addrLen = sizeof(clientAddr);
+
+serverAddr.sin_family = AF_INET;
+serverAddr.sin_port = htons(SERVER_PORT);
+serverAddr.sin_addr.s_addr = INADDR_ANY;
+
+bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
+
+std::cout << "Server running on port " << SERVER_PORT << "\n";
+
+char buffer[BUFFER_SIZE];
+std::vector<Client> clients;
 
 //Agnesa
     while (true) {

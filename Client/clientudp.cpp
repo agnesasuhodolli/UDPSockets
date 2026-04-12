@@ -2,7 +2,23 @@
 
 
 //Ahmet
+std::cout << "================ COMMANDS ================\n";
 
+std::cout << "\nFor ALL clients:\n";
+std::cout << " - list (list files)\n";
+std::cout << " - read (read file)\n";
+std::cout << " - exit (disconnect)\n";
+
+std::cout << "\nADMIN only:\n";
+std::cout << " - write <text> (write to file)\n";
+std::cout << " - execute <cmd> (run system command)\n";
+
+std::cout << "\nAllowed execute commands:\n";
+std::cout << " - dir / ls\n";
+std::cout << " - date\n";
+std::cout << " - whoami\n";
+
+std::cout << "==========================================\n";
 
 //Agnesa
     while (true) {
