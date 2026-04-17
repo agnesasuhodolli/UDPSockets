@@ -1,5 +1,39 @@
 //Naila
+#include <iostream>
+#include <cstring>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
+#else
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
+
+#define BUFFER_SIZE 2048
+
+int main() {
+
+#ifdef _WIN32
+    WSADATA wsa;
+    WSAStartup(MAKEWORD(2,2), &wsa);
+#endif
+
+    int clientSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+    sockaddr_in serverAddr{};
+
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(4444);
+    serverAddr.sin_addr.s_addr = inet_addr("192.168.0.29"); //Qetu e shton IP adresen tande
+
+    char buffer[BUFFER_SIZE];
+
+    int timeout = 3000;
+    setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO,
+               (const char*)&timeout, sizeof(timeout));
+
+    std::cout << "Type 'exit' anytime to leave the server.\n";
 
 //Ahmet
 std::cout << "================ COMMANDS ================\n";
