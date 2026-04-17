@@ -67,10 +67,16 @@ std::vector<Client> clients;
         buffer[n] = '\0';
         std::string msg(buffer);
 
+        if (msg == "DISCOVER_SERVER") {
+            std::string response = "SERVER_HERE";
+            sendto(serverSocket, response.c_str(), response.size(), 0,
+                   (sockaddr*)&clientAddr, addrLen);
+            continue;
+        }
+
         std::string clientID = std::string(inet_ntoa(clientAddr.sin_addr))
                              + ":" + std::to_string(ntohs(clientAddr.sin_port));
 
-        // Regjistrimi i klientëve
         bool exists = false;
         for (auto &c : clients) {
             if (c.id == clientID) {
@@ -83,7 +89,6 @@ std::vector<Client> clients;
             Client newClient;
             newClient.id = clientID;
             newClient.isAdmin = clients.empty();
-
             clients.push_back(newClient);
 
             std::cout << "New client: " << clientID;
@@ -91,7 +96,6 @@ std::vector<Client> clients;
             std::cout << std::endl;
         }
 
-        // Gjej klientin aktual
         Client currentClient;
         for (auto &c : clients) {
             if (c.id == clientID) {
@@ -119,4 +123,5 @@ std::string temp = msg;
 
     sendto(serverSocket, response.c_str(), response.size(), 0,
            (sockaddr*)&clientAddr, addrLen);
+}
 }

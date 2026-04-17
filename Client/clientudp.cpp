@@ -70,7 +70,8 @@ std::cout << "==========================================\n";
         sendto(clientSocket, buffer, strlen(buffer), 0,
                (sockaddr*)&serverAddr, sizeof(serverAddr));
 
-        int n = recvfrom(clientSocket, buffer, BUFFER_SIZE, 0, nullptr, nullptr);
+        int n = recvfrom(clientSocket, buffer, BUFFER_SIZE, 0,
+                         (sockaddr*)&serverAddr, &serverLen);
 
         if (n < 0) {
             std::cout << "No response from server\n";
