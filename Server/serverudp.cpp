@@ -105,3 +105,18 @@ std::vector<Client> clients;
         std::string response;
 
 //Naila
+std::string temp = msg;
+
+    for (auto &c : temp) {
+        c = tolower(c);
+    }
+
+    if (temp == "exit") {
+        continue;
+    }
+
+    std::string response = "OK: " + msg;
+
+    sendto(serverSocket, response.c_str(), response.size(), 0,
+           (sockaddr*)&clientAddr, addrLen);
+}
