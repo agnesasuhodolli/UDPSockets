@@ -69,6 +69,8 @@ int main() {
         std::string input(buffer);
 
         if (input == "exit") {
+        sendto(clientSocket, buffer, strlen(buffer), 0,
+           (sockaddr*)&serverAddr, sizeof(serverAddr));
             std::cout << "Disconnecting...\n";
             break;
         }

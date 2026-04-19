@@ -111,6 +111,11 @@ int main() {
 
         std::cout << clientID << " -> " << msg << std::endl;
 
+        if (msg == "exit") {
+            std::cout << "Client exited: " << clientID << std::endl;
+            continue;
+        }
+
         std::string response;
 
         if (msg == "list") {
