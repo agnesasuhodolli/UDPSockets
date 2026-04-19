@@ -1,5 +1,56 @@
 //Ahmet
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <fstream>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <WS2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
+#define popen _popen
+#define pclose _pclose
+#else
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
+#include <string>
+
+#define BUFFER_SIZE 2048
+#define SERVER_PORT 4444
+
+struct Client {
+    std::string id;
+    bool isAdmin;
+};
+
+bool isAllowedCommand(const std::string& cmd) {
+    return (cmd == "dir" || cmd == "ls" || cmd == "date" || cmd == "whoami");
+}
+
+int main() {
+
+#ifdef _WIN32
+    WSADATA wsa;
+    WSAStartup(MAKEWORD(2,2), &wsa);
+#endif
+
+    int serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+    if (serverSocket < 0) {
+        std::cerr << "Socket creation failed\n";
+        return 1;
+    }
+
+    int opt = 1;
+    setsockopt(serverSocket, SOL_SOCKET, SO_BROADCAST, (char*)&opt, sizeof(opt));
+
+    sockaddr_in serverAddr{}, clientAddr{};
+    socklen_t addrLen = sizeof(clientAddr);
+
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(SERVER_PORT);
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
 
 //Naila
     if (bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {

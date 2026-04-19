@@ -37,7 +37,33 @@ int main() {
     std::cin.getline(ip, 50);
 
 //Ahmet
+sockaddr_in serverAddr{};
+    socklen_t serverLen = sizeof(serverAddr);
 
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(SERVER_PORT);
+    serverAddr.sin_addr.s_addr = inet_addr(ip);
+
+    std::cout << "Connected to server: " << ip << "\n";
+
+    std::cout << "================ COMMANDS ================\n";
+
+    std::cout << "\nFor ALL clients:\n";
+    std::cout << " - list (list files)\n";
+    std::cout << " - read (read file)\n";
+    std::cout << " - exit (disconnect)\n";
+
+    std::cout << "\nADMIN only:\n";
+    std::cout << " - write <text> (write to file)\n";
+    std::cout << " - execute <cmd> (run system command)\n";
+
+    std::cout << "\nAllowed execute commands:\n";
+    std::cout << " - dir (Windows)\n";
+    std::cout << " - ls (Linux)\n";
+    std::cout << " - date\n";
+    std::cout << " - whoami\n";
+
+    std::cout << "==========================================\n";
 
 //Agnesa
     while (true) {
