@@ -1,5 +1,40 @@
 //Naila
+#include <iostream>
+#include <cstring>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <WS2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
+#else
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
+
+#define BUFFER_SIZE 2048
+#define SERVER_PORT 4444
+
+int main() {
+
+#ifdef _WIN32
+    WSADATA wsa;
+    WSAStartup(MAKEWORD(2,2), &wsa);
+#endif
+
+    int clientSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+    if (clientSocket < 0) {
+        std::cerr << "Socket creation failed\n";
+        return 1;
+    }
+
+    char buffer[BUFFER_SIZE];
+
+    // USER INPUT IP
+    char ip[50];
+
+    std::cout << "Enter server IP: ";
+    std::cin.getline(ip, 50);
 
 //Ahmet
 
