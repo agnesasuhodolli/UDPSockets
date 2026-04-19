@@ -2,6 +2,7 @@
 #include <cstring>
 #include <vector>
 #include <fstream>
+#include <chrono>
 
 #ifdef _WIN32
 #include <winsock2.h>
@@ -149,9 +150,12 @@ int main() {
 
 #ifdef _WIN32
                 if (command == "ls") command = "dir";
+                if (command == "date") command = "echo %DATE%";
+#else
+                if (command == "date") command = "date";
 #endif
 
-                if (!isAllowedCommand(command)) {
+                if (!isAllowedCommand(msg.substr(8))) {
                     response = "Command not allowed!";
                 } else {
 
@@ -169,8 +173,20 @@ int main() {
                         char result[256];
                         std::string output = "";
 
+                        auto start = std::chrono::steady_clock::now();
+                        const int TIMEOUT_SECONDS = 3;
+
                         while (fgets(result, sizeof(result), pipe) != NULL) {
+
                             output += result;
+
+                            auto now = std::chrono::steady_clock::now();
+                            int elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
+
+                            if (elapsed > TIMEOUT_SECONDS) {
+                                output += "\n[ERROR: Command timeout]";
+                                break;
+                            }
                         }
 
                         pclose(pipe);
