@@ -2,6 +2,66 @@
 
 
 //Naila
+    if (bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+        std::cerr << "Bind failed\n";
+        return 1;
+    }
+
+    std::cout << "Server running on port " << SERVER_PORT << "\n";
+
+    char buffer[BUFFER_SIZE];
+    std::vector<Client> clients;
+
+    while (true) {
+
+        int n = recvfrom(serverSocket, buffer, BUFFER_SIZE, 0,
+                         (sockaddr*)&clientAddr, &addrLen);
+
+        if (n <= 0) continue;
+
+        buffer[n] = '\0';
+        std::string msg(buffer);
+
+        if (msg == "DISCOVER_SERVER") {
+            std::string response = "SERVER_HERE";
+            sendto(serverSocket, response.c_str(), response.size(), 0,
+                   (sockaddr*)&clientAddr, addrLen);
+            continue;
+        }
+
+        std::string clientID = std::string(inet_ntoa(clientAddr.sin_addr))
+                             + ":" + std::to_string(ntohs(clientAddr.sin_port));
+
+        bool exists = false;
+        for (auto &c : clients) {
+            if (c.id == clientID) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (!exists) {
+            Client newClient;
+            newClient.id = clientID;
+            newClient.isAdmin = clients.empty();
+            clients.push_back(newClient);
+
+            std::cout << "New client: " << clientID;
+            if (newClient.isAdmin) std::cout << " (ADMIN)";
+            std::cout << std::endl;
+        }
+
+        Client currentClient;
+        for (auto &c : clients) {
+            if (c.id == clientID) {
+                currentClient = c;
+                break;
+            }
+        }
+
+        std::cout << clientID << " -> " << msg << std::endl;
+
+        std::string response;
 
 
 //Agnesa
