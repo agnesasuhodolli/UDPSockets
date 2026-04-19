@@ -1,4 +1,3 @@
-//Ahmet
 #include <iostream>
 #include <cstring>
 #include <vector>
@@ -52,7 +51,6 @@ int main() {
     serverAddr.sin_port = htons(SERVER_PORT);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
-//Naila
     if (bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
         std::cerr << "Bind failed\n";
         return 1;
@@ -114,8 +112,6 @@ int main() {
 
         std::string response;
 
-
-//Agnesa
         if (msg == "list") {
             response = "Files: test.txt";
         }

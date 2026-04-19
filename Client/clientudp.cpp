@@ -1,4 +1,3 @@
-//Naila
 #include <iostream>
 #include <cstring>
 
@@ -29,15 +28,12 @@ int main() {
     }
 
     char buffer[BUFFER_SIZE];
-
-    // USER INPUT IP
     char ip[50];
 
     std::cout << "Enter server IP: ";
     std::cin.getline(ip, 50);
 
-//Ahmet
-sockaddr_in serverAddr{};
+    sockaddr_in serverAddr{};
     socklen_t serverLen = sizeof(serverAddr);
 
     serverAddr.sin_family = AF_INET;
@@ -65,7 +61,6 @@ sockaddr_in serverAddr{};
 
     std::cout << "==========================================\n";
 
-//Agnesa
     while (true) {
 
         std::cout << "\nCommand: ";
